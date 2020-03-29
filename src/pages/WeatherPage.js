@@ -57,6 +57,7 @@ class WeatherPage extends React.PureComponent {
 
     return (
       <div>
+        <h1>Grand Bend Motorplex</h1>
         <table>
           <thead>
             <tr>
