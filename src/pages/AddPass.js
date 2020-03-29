@@ -174,7 +174,7 @@ class AddPass extends React.PureComponent {
 
   handleWindSpeed = e => {
     this.setState({
-      handleWindSpeed: e.target.value,
+      windSpeed: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
