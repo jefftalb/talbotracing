@@ -4,9 +4,7 @@ import './App.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Logo from './logo.png';
-import HomePage from './pages/HomePage';
-import WeatherPage from './pages/WeatherPage';
-import AddPass from './pages/AddPass';
+import { HomePage, WeatherPage, AddPass} from './components';
 
 const App = () => {
   return (

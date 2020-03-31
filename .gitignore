@@ -3,3 +3,4 @@ functions/node_modules
 node_modules
 firebaseCLI.exe
 src/credentials.js
+firebase-debug.log
