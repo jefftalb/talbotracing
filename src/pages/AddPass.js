@@ -2,6 +2,8 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
+import { db } from '../components/firebase';
 
 class AddPass extends React.PureComponent {
   constructor(props) {
@@ -11,6 +13,7 @@ class AddPass extends React.PureComponent {
       time: "",
       track: "GBM",
       lane: "Right",
+      dial: "0.00",
       win: "T/T",
       rt: "0.000",
       _60: "0.000",
@@ -30,169 +33,195 @@ class AddPass extends React.PureComponent {
       note1: "",
       note2: "",
       note3: "",
+      submitted: false,
+      errorSubmitting: false,
+      showErrorBanner: false,
+      showSubmittedBanner: false,
     }
   }
 
-  submitPass = () => {
-    console.log(this.state);
+  componentDidUpdate = () => {
+    if (this.state.submitted) {
+      this.setState({
+        dial: "0.00",
+        win: "T/T",
+        rt: "0.000",
+        _60: "0.000",
+        _330: "0.000",
+        eightET: "0.000",
+        eightMPH: "0.00",
+        _1000: "0.000",
+        quarterET: "0.000",
+        quarterMPH: "0.00",
+        airTemp: "0.0",
+        humidity: "0.0",
+        bPressure: "0.00",
+        da: "0",
+        vp: "0.00",
+        windSpeed: "0.0",
+        windDirection: "Head",
+        note1: "",
+        note2: "",
+        note3: "",
+        submitted: false,
+        errorSubmitting: false,
+        showSubmittedBanner: true,
+      })
+    }
+    else if (this.state.errorSubmitting) {
+      this.setState({
+        showErrorBanner: true,
+      })
+    }
   }
 
+  submitPass = (e) => {
+    e.preventDefault();
+    db.collection("passes").add(this.state)
+    .then(docRef => {
+      this.setState({submitted: true})
+    })
+    .catch(error => {
+      this.setState({errorSubmitting: true});
+      db.collection("errors").add({
+        user: "jeff",
+        error: error,
+      })
+    })
+  }
   handleDate = e => {
     this.setState({
       date: e.target.value
     });
   }
-
   handleTime = e => {
     this.setState({
       time: e.target.value
     });
   }
-
   handleTrack = e => {
     this.setState({
       track: e.target.value
     });
   }
-
   handleLane = e => {
     this.setState({
       lane: e.target.value
     });
   }
-
   handleRT = e => {
     this.setState({
       rt: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleDial = e => {
     this.setState({
       dial: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleWin = e => {
     this.setState({
       win: e.target.value,
     });
   }
-
   handle60 = e => {
     this.setState({
       _60: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handle330 = e => {
     this.setState({
       _330: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleEightET = e => {
     this.setState({
       eightET: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleEightMPH = e => {
     this.setState({
       eightMPH: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handle1000 = e => {
     this.setState({
       _1000: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleQuarterET = e => {
     this.setState({
       quarterET: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleQuarterMPH = e => {
     this.setState({
       quarterMPH: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleNote1 = e => {
     this.setState({
       note1: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleNote2 = e => {
     this.setState({
       note2: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleNote3 = e => {
     this.setState({
       note3: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleAirTemp = e => {
     this.setState({
       airTemp: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleHumidity = e => {
     this.setState({
       humidity: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleBPressure = e => {
     this.setState({
       bPressure: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleWindSpeed = e => {
     this.setState({
       windSpeed: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleWindDirection = e => {
     this.setState({
       windDirection: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleDA = e => {
     this.setState({
       da: e.target.value,
     });
     // use parseFloat(e.target.value).toFixed(3) for submitting and displaying
   }
-
   handleVP = e => {
     this.setState({
       vp: e.target.value,
@@ -205,6 +234,16 @@ class AddPass extends React.PureComponent {
     return (
       <>
         <h1>Add a New Pass</h1>
+        {this.state.showSubmittedBanner &&
+          <Alert variant="success" onClose={() => this.setState({showSubmittedBanner: false})} dismissible>
+            Pass successfully submitted.
+          </Alert>
+        }
+        {this.state.showErrorBanner &&
+          <Alert varient="danger" onClose={() => this.setState({showErrorBanner: false})} dismissible>
+            Something went wrong. Please try again later.
+          </Alert>
+        }
         <Form onSubmit={this.submitPass}>
           <Form.Row>
             <Form.Group as={Col}>
@@ -244,7 +283,7 @@ class AddPass extends React.PureComponent {
                 type="number"
                 value={this.state.dial}
                 onChange={this.handleDial}
-                step={0.001}
+                step={0.01}
               />
             </Form.Group>
             <Form.Group as={Col}>
