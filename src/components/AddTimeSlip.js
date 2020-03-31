@@ -3,9 +3,9 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-import { db } from '../components';
+import { db } from '.';
 
-class AddPass extends React.PureComponent {
+class AddTimeSlip extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -75,9 +75,9 @@ class AddPass extends React.PureComponent {
     }
   }
 
-  submitPass = (e) => {
+  submitTimeSlip = (e) => {
     e.preventDefault();
-    db.collection("passes").add(this.state)
+    db.collection("time-slips").add(this.state)
     .then(docRef => {
       this.setState({submitted: true})
     })
@@ -233,10 +233,10 @@ class AddPass extends React.PureComponent {
 
     return (
       <>
-        <h1>Add a New Pass</h1>
+        <h1>Add a Time Slip</h1>
         {this.state.showSubmittedBanner &&
           <Alert variant="success" onClose={() => this.setState({showSubmittedBanner: false})} dismissible>
-            Pass successfully submitted.
+            Time slip successfully submitted.
           </Alert>
         }
         {this.state.showErrorBanner &&
@@ -244,7 +244,7 @@ class AddPass extends React.PureComponent {
             Something went wrong. Please try again later.
           </Alert>
         }
-        <Form onSubmit={this.submitPass}>
+        <Form onSubmit={this.submitTimeSlip}>
           <Form.Row>
             <Form.Group as={Col}>
               <Form.Label>Date</Form.Label>
@@ -287,11 +287,11 @@ class AddPass extends React.PureComponent {
               />
             </Form.Group>
             <Form.Group as={Col}>
-              <Form.Label>Win/Lose</Form.Label>
+              <Form.Label>Win/Loss</Form.Label>
               <Form.Control as="select" value={this.state.win} onChange={this.handleWin}>
                 <option>T/T</option>
                 <option>Win</option>
-                <option>Lose</option>
+                <option>Loss</option>
               </Form.Control>
             </Form.Group>
           </Form.Row>
@@ -474,4 +474,4 @@ class AddPass extends React.PureComponent {
   }
 }
 
-export default AddPass;
+export default AddTimeSlip;

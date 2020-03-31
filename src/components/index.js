@@ -1,7 +1,8 @@
-import AddPass from "./AddPass";
 import HomePage from "./HomePage";
+import AddTimeSlip from "./AddTimeSlip";
+import ViewTimeSlips from "./ViewTimeSlips";
 import WeatherPage from "./WeatherPage";
 import Error404 from "./Error404";
 import { db } from "./firebase";
 
-export { AddPass, HomePage, WeatherPage, Error404, db };
+export { HomePage, AddTimeSlip, ViewTimeSlips, WeatherPage, Error404, db };
