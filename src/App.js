@@ -4,7 +4,7 @@ import './App.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Logo from './logo.png';
-import { HomePage, WeatherPage, AddPass} from './components';
+import { HomePage, WeatherPage, AddPass, Error404 } from './components';
 
 const App = () => {
   return (
@@ -31,6 +31,7 @@ const App = () => {
           <Route path="/" exact component={HomePage} />
           <Route path="/add-pass" exact component={AddPass} />
           <Route path="/weather" exact component={WeatherPage} />
+          <Route component={Error404} />
         </content>
       </div>
     </Router>
