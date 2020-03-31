@@ -1,11 +1,16 @@
 import React from 'react';
+import Spinner from 'react-bootstrap/Spinner';
 
 class WeatherPage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
         data: null,
+        loading: true,
     }
+  }
+
+  componentDidMount() {
     this.getWeather();
   }
 
@@ -32,7 +37,7 @@ class WeatherPage extends React.PureComponent {
         // wind_gust: {value: 12.16, units: "mph"}
         // wind_speed: {value: 10.07, units: "mph"}
         response.json().then((data) => {
-          this.setState({data});
+          this.setState({data, loading: false});
         });
       }
     });
@@ -58,17 +63,39 @@ class WeatherPage extends React.PureComponent {
     return (
       <div>
         <h1>Grand Bend Motorplex</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>Measurement</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.buildWeatherTable()}
-          </tbody>
-        </table>
+        {this.state.loading &&
+          <>
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+            <Spinner animation="grow" variant="primary" />
+          </>
+          ||
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Measurement</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.buildWeatherTable()}
+            </tbody>
+          </table>
+        }
       </div>
     );
   }

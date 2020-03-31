@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import Spinner from 'react-bootstrap/Spinner';
 import { db } from '.';
 
 class AddTimeSlip extends React.PureComponent {
@@ -37,6 +38,7 @@ class AddTimeSlip extends React.PureComponent {
       errorSubmitting: false,
       showErrorBanner: false,
       showSubmittedBanner: false,
+      loading: false,
     }
   }
 
@@ -66,16 +68,19 @@ class AddTimeSlip extends React.PureComponent {
         submitted: false,
         errorSubmitting: false,
         showSubmittedBanner: true,
+        loading: false,
       })
     }
     else if (this.state.errorSubmitting) {
       this.setState({
         showErrorBanner: true,
+        loading: false,
       })
     }
   }
 
   submitTimeSlip = (e) => {
+    this.setState({loading: true});
     e.preventDefault();
     db.collection("time-slips").add(this.state)
     .then(docRef => {
@@ -465,9 +470,19 @@ class AddTimeSlip extends React.PureComponent {
               />
             </Form.Group>
           </Form.Row>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+          {this.state.loading &&
+            <Button variant="primary">
+              <Spinner
+                as="span"
+                animation="grow"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            </Button>
+            ||
+            <Button variant="primary" type="submit">Submit</Button>
+          }
         </Form>
       </>
     );

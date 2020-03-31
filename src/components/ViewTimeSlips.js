@@ -1,5 +1,6 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
+import Spinner from 'react-bootstrap/Spinner';
 import { db } from '.';
 
 class ViewTimeSlips extends React.PureComponent {
@@ -94,7 +95,7 @@ class ViewTimeSlips extends React.PureComponent {
           </Table>
           ||
           <center>
-            <b>loading...</b>
+            <Spinner animation="grow" variant="primary" />
           </center>
         }
       </>
