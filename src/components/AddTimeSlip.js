@@ -240,7 +240,7 @@ class AddTimeSlip extends React.PureComponent {
       <>
         <h1>Add a Time Slip</h1>
         {this.state.showSubmittedBanner &&
-          <Alert variant="success" onClose={() => this.setState({showSubmittedBanner: false})} dismissible>
+          <Alert variant="success" onClose={() => this.setState({showSubmittedBanner: false})} delay={3000} dismissible>
             Time slip successfully submitted.
           </Alert>
         }

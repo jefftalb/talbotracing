@@ -3,6 +3,6 @@ content {
     display: block;
 }
 
-#datepicker {
-    padding-left: 1vw;
+th, td {
+    text-align: center;
 }
