@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
-import { db } from '.';
 
 class AddTimeSlip extends React.PureComponent {
   constructor(props) {
@@ -82,16 +81,13 @@ class AddTimeSlip extends React.PureComponent {
   submitTimeSlip = (e) => {
     this.setState({loading: true});
     e.preventDefault();
-    db.collection("time-slips").add(this.state)
+    this.props.firebase.addTimeslip(this.state)
     .then(docRef => {
       this.setState({submitted: true})
     })
     .catch(error => {
       this.setState({errorSubmitting: true});
-      db.collection("errors").add({
-        user: "jeff",
-        error: error,
-      })
+      this.props.firebase.addError("jeff", error);
     })
   }
   handleDate = e => {
@@ -470,7 +466,7 @@ class AddTimeSlip extends React.PureComponent {
               />
             </Form.Group>
           </Form.Row>
-          {this.state.loading &&
+          {(this.state.loading &&
             <Button variant="primary">
               <Spinner
                 as="span"
@@ -479,7 +475,7 @@ class AddTimeSlip extends React.PureComponent {
                 role="status"
                 aria-hidden="true"
               />
-            </Button>
+            </Button>)
             ||
             <Button variant="primary" type="submit">Submit</Button>
           }

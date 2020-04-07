@@ -3,6 +3,6 @@ import AddTimeSlip from "./AddTimeSlip";
 import ViewTimeSlips from "./ViewTimeSlips";
 import WeatherPage from "./WeatherPage";
 import Error404 from "./Error404";
-import { db } from "./firebase";
+import Firebase, { FirebaseContext, withFirebase } from "./firebase";
 
-export { HomePage, AddTimeSlip, ViewTimeSlips, WeatherPage, Error404, db };
+export { HomePage, AddTimeSlip, ViewTimeSlips, WeatherPage, Error404, Firebase, FirebaseContext, withFirebase };

@@ -4,7 +4,6 @@ import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import { db } from '.';
 
 class ViewTimeSlips extends React.PureComponent {
   constructor(props) {
@@ -26,19 +25,12 @@ class ViewTimeSlips extends React.PureComponent {
   }
 
   getData = async() => {
-    let checked = [];
-    var timeslips = await db.collection("time-slips").get().then((results) => {
-      return (
-        results.docs.map((timeslip, i) => {
-          checked[timeslip.id] = false;
-          return {
-            id: timeslip.id,
-            data: timeslip.data(),
-          };
-        })
-      );
+    var results = await this.props.firebase.getTimeslips();
+    this.setState({
+      timeslips: results.timeslips,
+      checked: results.checked,
+      loading: false
     });
-    this.setState({timeslips, checked, loading: false});
   }
 
   handleCheck = (id) => {
@@ -65,9 +57,8 @@ class ViewTimeSlips extends React.PureComponent {
       }
     });
     this.state.timeslips.forEach((slip, i) => {
-      console.log(i, this.state.timeslips.length)
       if (this.state.checked[slip.id]) {
-        db.collection("time-slips").doc(slip.id).delete()
+        this.props.firebase.deleteTimeslip(slip.id)
         .then(() => {
           recordsDeleted++;
           if (recordsDeleted === recordsToDelete) {
@@ -87,7 +78,7 @@ class ViewTimeSlips extends React.PureComponent {
           <Dropdown.Item onClick={this.handleDelete}>Yes</Dropdown.Item>
           <Dropdown.Item>No</Dropdown.Item>
         </DropdownButton>
-        {!this.state.loading && 
+        {(!this.state.loading && 
           <Table size="sm"  responsive='sm' bordered striped>
             <thead>
               <tr>
@@ -151,7 +142,7 @@ class ViewTimeSlips extends React.PureComponent {
                 )
               })}
             </tbody>
-          </Table>
+          </Table>)
           ||
           <center>
             <Spinner animation="grow" variant="primary" />

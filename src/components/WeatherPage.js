@@ -63,7 +63,7 @@ class WeatherPage extends React.PureComponent {
     return (
       <div>
         <h1>Grand Bend Motorplex</h1>
-        {this.state.loading &&
+        {(this.state.loading &&
           <>
             <Spinner animation="grow" variant="primary" />
             <Spinner animation="grow" variant="primary" />
@@ -82,7 +82,7 @@ class WeatherPage extends React.PureComponent {
             <Spinner animation="grow" variant="primary" />
             <Spinner animation="grow" variant="primary" />
             <Spinner animation="grow" variant="primary" />
-          </>
+          </>)
           ||
           <table>
             <thead>
