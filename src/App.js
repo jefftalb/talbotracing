@@ -4,7 +4,7 @@ import './App.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Logo from './logo.png';
-import { HomePage, WeatherPage, AddTimeSlip, ViewTimeSlips, Error404, withFirebase } from './components';
+import { HomePage, WeatherPage, AddTimeslip, ViewTimeslips, Error404, withFirebase, Login, SignUp } from './components';
 
 class App extends Component {
   constructor(props) {
@@ -29,12 +29,16 @@ class App extends Component {
     this.listener();
   }
 
+  logout = () => {
+    this.props.firebase.logout();
+  }
+
   render() {
     return (
       <Router>
         <div className="App">
           <header className="App-header">
-            <Navbar bg="primary" variant="dark">
+            <Navbar bg="primary" variant="dark" fixed="top">
               <Navbar.Brand href="/">
                 <img
                   alt=""
@@ -45,17 +49,25 @@ class App extends Component {
                 />
               </Navbar.Brand>
               <Nav className="mr-auto">
-                <Nav.Link as={Link} to="/view-time-slips" href="/view-time-slips">View Time Slips</Nav.Link>
-                <Nav.Link as={Link} to="/add-time-slip" href="/add-pass">Add Time Slips</Nav.Link>
+                <Nav.Link as={Link} to="/view-timeslips" href="/view-time-slips">View Time Slips</Nav.Link>
+                <Nav.Link as={Link} to="/add-timeslip" href="/add-pass">Add Time Slips</Nav.Link>
                 <Nav.Link as={Link} to="/weather" href="/weather">Weather</Nav.Link>
+              </Nav>
+              <Nav>
+              {(this.state.authUser &&
+                <Nav.Link onClick={this.logout}>Logout</Nav.Link>) ||
+                <Nav.Link as={Link} to="/login" href="/login">Login</Nav.Link>
+              }
               </Nav>
             </Navbar>
           </header>
           <content>
             <Switch>
               <Route path="/" exact component={HomePage}/>
-              <Route path="/add-time-slip" exact render={ (props) => <AddTimeSlip {...props} firebase={this.props.firebase} /> } />
-              <Route path="/view-time-slips" exact render={ (props) => <ViewTimeSlips {...props} firebase={this.props.firebase} /> } />
+              <Route path="/add-timeslip" exact render={ (props) => <AddTimeslip {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+              <Route path="/view-timeslips" exact render={ (props) => <ViewTimeslips {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+              <Route path="/login" exact render={ (props) => <Login {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+              <Route path="/signup" exact render={ (props) => <SignUp {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
               <Route path="/weather" exact component={WeatherPage} />
               <Route path="/*" component={Error404} />
             </Switch>

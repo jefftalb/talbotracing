@@ -11,9 +11,11 @@ class Firebase {
     this.auth = app.auth();
   }
 
+
   // *** Auth API ***
+
   createUserWithEmailAndPassword = (email, password) => {
-    this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
+    return this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
       // Handle Errors here.
       return error;
       // ...
@@ -21,19 +23,37 @@ class Firebase {
   }
 
   signInWithEmailAndPassword = (email, password) => {
+    var error = null;
     this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
       // Handle Errors here.
-      return error
+      error = error
+    });
+    if (error) {
+      return error;
+    }
+  }
+
+  logout = () => {
+    return this.auth.signOut().catch(function(error) {
+      // An error happened.
+      return error;
     });
   }
+
+
+
   // *** Firestore API ***
+
   addTimeslip = (data) => {
-    return this.db.collection("time-slips").add(data);
+    data.uid = this.auth.currentUser.uid;
+    return this.db.collection("timeslips").add(data);
   }
 
   getTimeslips = async() => {
     let checked = [];
-    var timeslips = await this.db.collection("time-slips").get().then((results) => {
+    var timeslips = await this.db.collection("timeslips").where("uid", "==", this.auth.currentUser.uid)
+    .get()
+    .then((results) => {
       return (
         results.docs.map((timeslip, i) => {
           checked[timeslip.id] = false;
@@ -48,13 +68,14 @@ class Firebase {
   }
 
   deleteTimeslip = (id) => {
-    return this.db.collection("time-slips").doc(id).delete();
+    return this.db.collection("timeslips").doc(id).delete();
   }
 
-  addError = (user, error) => {
+  addError = (error) => {
     this.db.collection("errors").add({
-      user: user,
-      error: error,
+      uid: this.auth.currentUser.uid,
+      errorM: error.message,
+      errorM: error.code,
     })
   }
 }

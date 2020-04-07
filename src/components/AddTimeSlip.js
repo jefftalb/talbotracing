@@ -4,8 +4,9 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
+import { Login } from '.';  
 
-class AddTimeSlip extends React.PureComponent {
+class AddTimeslip extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,7 +88,7 @@ class AddTimeSlip extends React.PureComponent {
     })
     .catch(error => {
       this.setState({errorSubmitting: true});
-      this.props.firebase.addError("jeff", error);
+      this.props.firebase.addError(error);
     })
   }
   handleDate = e => {
@@ -231,13 +232,16 @@ class AddTimeSlip extends React.PureComponent {
   }
 
   render() {
+    if (!this.props.authUser) {
+      return <Login firebase={this.props.firebase} authUser={this.props.authUser} />;
+    }
 
     return (
       <>
-        <h1>Add a Time Slip</h1>
+        <h1>Add a Timeslip</h1>
         {this.state.showSubmittedBanner &&
           <Alert variant="success" onClose={() => this.setState({showSubmittedBanner: false})} delay={3000} dismissible>
-            Time slip successfully submitted.
+            Timeslip successfully submitted.
           </Alert>
         }
         {this.state.showErrorBanner &&
@@ -485,4 +489,4 @@ class AddTimeSlip extends React.PureComponent {
   }
 }
 
-export default AddTimeSlip;
+export default AddTimeslip;

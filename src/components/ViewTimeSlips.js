@@ -4,8 +4,9 @@ import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Login } from '../components';
 
-class ViewTimeSlips extends React.PureComponent {
+class ViewTimeslips extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,17 +15,27 @@ class ViewTimeSlips extends React.PureComponent {
       checkAll: false,
       loading: true,
       update: false,
+      initialLoad: false,
     }
   }
 
-  async componentDidMount() {
-    this.getData();
+  componentDidMount() {
+    if (this.props.authUser) {
+      this.getData();
+      this.setState({initialLoad: true});
+    }
   }
+
   componentDidUpdate() {
+    if (this.props.authUser && !this.state.initialLoad) {
+      this.getData();
+      this.setState({initialLoad: true});
+    }
     this.setState({update: false});
   }
 
   getData = async() => {
+    console.log("get data");
     var results = await this.props.firebase.getTimeslips();
     this.setState({
       timeslips: results.timeslips,
@@ -70,10 +81,14 @@ class ViewTimeSlips extends React.PureComponent {
   }
 
   render() {
+    if (!this.props.authUser) {
+      return <Login firebase={this.props.firebase} authUser={this.props.authUser} />;
+    }
+
     return (
       <>
-        <h1>View Time Slips</h1>
-        <DropdownButton varient="danger" title="Delete Selected Time Slips">
+        <h1>View Timeslips</h1>
+        <DropdownButton id="delete-timeslips-dropdown" varient="danger" title="Delete Selected Time Slips">
           <Dropdown.Item disabled>Are you sure?</Dropdown.Item>
           <Dropdown.Item onClick={this.handleDelete}>Yes</Dropdown.Item>
           <Dropdown.Item>No</Dropdown.Item>
@@ -153,4 +168,4 @@ class ViewTimeSlips extends React.PureComponent {
   }
 }
 
-export default ViewTimeSlips;
+export default ViewTimeslips;

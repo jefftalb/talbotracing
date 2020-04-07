@@ -1,8 +1,12 @@
 content {
-    margin: 1vw 2vw 0 2vw;
+    margin: 75px 2vw 0 2vw;
     display: block;
 }
 
 th, td {
     text-align: center;
+}
+
+#delete-timeslips-dropdown {
+    margin-bottom: 15px;
 }
