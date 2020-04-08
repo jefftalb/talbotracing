@@ -35,7 +35,6 @@ class ViewTimeslips extends React.PureComponent {
   }
 
   getData = async() => {
-    console.log("get data");
     var results = await this.props.firebase.getTimeslips();
     this.setState({
       timeslips: results.timeslips,

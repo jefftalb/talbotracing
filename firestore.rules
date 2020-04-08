@@ -1,8 +1,8 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /timeslips/{timeslipId}} {
-      allow read, write: if request.auth.uid == uid;
+    match /timeslips/{timeslipId} {
+      allow read, write: if request.auth.uid != null;
     }
   }
 }

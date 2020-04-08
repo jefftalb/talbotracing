@@ -1,14 +1,14 @@
 import { firebaseConfig } from '../../credentials';
-import app from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
 class Firebase {
   constructor() {
-    app.initializeApp(firebaseConfig)
+    firebase.initializeApp(firebaseConfig)
 
-    this.db = app.firestore();
-    this.auth = app.auth();
+    this.db = firebase.firestore();
+    this.auth = firebase.auth();
   }
 
 
@@ -23,14 +23,22 @@ class Firebase {
   }
 
   signInWithEmailAndPassword = (email, password) => {
-    var error = null;
-    this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+    var newError = this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
       // Handle Errors here.
-      error = error
+      return error
     });
-    if (error) {
-      return error;
+    if (newError) {
+      return newError;
     }
+  }
+
+  googleSignInPopup = () => {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    this.auth.signInWithPopup(provider)
+    .catch(function(error) {
+      this.addError(error);
+    });
   }
 
   logout = () => {
@@ -75,7 +83,7 @@ class Firebase {
     this.db.collection("errors").add({
       uid: this.auth.currentUser.uid,
       errorM: error.message,
-      errorM: error.code,
+      errorC: error.code,
     })
   }
 }
