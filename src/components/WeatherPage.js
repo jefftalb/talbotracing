@@ -1,5 +1,9 @@
 import React from 'react';
 import Spinner from 'react-bootstrap/Spinner';
+import Table from 'react-bootstrap/Table';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { ClimacellKey } from '../credentials';
 
 class WeatherPage extends React.PureComponent {
   constructor(props) {
@@ -20,7 +24,7 @@ class WeatherPage extends React.PureComponent {
       headers: {
         'Content-Type': 'application/JSON',
         'Content-Encoding': 'gzip',
-        'apikey': 'IBoiXSHtYCB6Z5lPWXS6y74W9aPjqvdD',
+        'apikey': ClimacellKey,
       },
     })
     .then((response) => {
@@ -61,42 +65,28 @@ class WeatherPage extends React.PureComponent {
   render() {
 
     return (
-      <div>
-        <h1>Grand Bend Motorplex</h1>
-        {(this.state.loading &&
-          <>
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="primary" />
-          </>)
-          ||
-          <table>
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Measurement</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.buildWeatherTable()}
-            </tbody>
-          </table>
-        }
-      </div>
+      <Row className="justify-content-md-center">
+        <Col xl="3">
+          <h1>Grand Bend Motorplex</h1>
+          {(this.state.loading &&
+            <>
+              <Spinner animation="grow" variant="primary" />
+            </>)
+            ||
+            <Table size="sm"  bordered striped>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Measurement</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.buildWeatherTable()}
+              </tbody>
+            </Table>
+          }
+        </Col>
+      </Row>
     );
   }
 }
