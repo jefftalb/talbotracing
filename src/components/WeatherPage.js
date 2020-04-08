@@ -85,6 +85,7 @@ class WeatherPage extends React.PureComponent {
               </tbody>
             </Table>
           }
+          <center>Data provided by <a href="https://www.climacell.co/">ClimaCell</a></center>
         </Col>
       </Row>
     );
