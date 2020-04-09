@@ -5,7 +5,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Spinner from 'react-bootstrap/Spinner';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import { Login, PrimaryCheckbox, BorderedTableCell, BorderedHeadTableCell, StyledTable, StyledTableContainer } from '../components';
+import { Login, PrimaryCheckbox, InvertPrimaryCheckbox, BorderedTableCell, BorderedHeadTableCell, StyledTable, StyledTableContainer, TimeSlipPaper } from '../components';
 
 class ViewTimeslips extends React.PureComponent {
   constructor(props) {
@@ -94,72 +94,74 @@ class ViewTimeslips extends React.PureComponent {
           <Dropdown.Item>No</Dropdown.Item>
         </DropdownButton>
         {(!this.state.loading &&
-        <StyledTableContainer>
-          <StyledTable size="small">
-            <TableHead>
-              <TableRow>
-                <BorderedHeadTableCell><center><PrimaryCheckbox checked={this.state.checkAll} onChange={this.handleCheckAll}/></center></BorderedHeadTableCell>
-                <BorderedHeadTableCell>Date</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Time</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Track</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Lane</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Dial In</BorderedHeadTableCell>
-                <BorderedHeadTableCell>W/L</BorderedHeadTableCell>
-                <BorderedHeadTableCell>R/T</BorderedHeadTableCell>
-                <BorderedHeadTableCell>60'</BorderedHeadTableCell>
-                <BorderedHeadTableCell>330'</BorderedHeadTableCell>
-                <BorderedHeadTableCell>1/8 ET</BorderedHeadTableCell>
-                <BorderedHeadTableCell>1/8 MPH</BorderedHeadTableCell>
-                <BorderedHeadTableCell>1000'</BorderedHeadTableCell>
-                <BorderedHeadTableCell>1/4 ET</BorderedHeadTableCell>
-                <BorderedHeadTableCell>1/4 MPH</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Wind Speed</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Wind Direction</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Air Temp (&deg;F)</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Humidity (%)</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Barometric Pressure (inHg)</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Density Altitude</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Vapor Pressure</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Note 1</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Note 2</BorderedHeadTableCell>
-                <BorderedHeadTableCell>Note 3</BorderedHeadTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.state.timeslips.map((timeslip, i) => {
-                return (
-                  <TableRow key={timeslip.id}>
-                    <BorderedTableCell><center><PrimaryCheckbox checked={this.state.checked[timeslip.id]} onChange={() => {this.handleCheck(timeslip.id)}}/></center></BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.date}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.time}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.track}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.lane}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.dial}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.win}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.rt}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data._60}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data._330}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.eightET}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.eightMPH}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data._1000}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.quarterET}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.quarterMPH}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.windSpeed}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.windDirection}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.airTemp}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.humidity}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.bPressure}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.da}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.vp}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.note1}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.note2}</BorderedTableCell>
-                    <BorderedTableCell>{timeslip.data.note3}</BorderedTableCell>
+        <TimeSlipPaper>
+            <StyledTableContainer>
+              <StyledTable size="small">
+                <TableHead>
+                  <TableRow>
+                    <BorderedHeadTableCell><center><InvertPrimaryCheckbox checked={this.state.checkAll} onChange={this.handleCheckAll}/></center></BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Date</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Time</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Track</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Lane</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Dial In</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>W/L</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>R/T</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>60'</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>330'</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>1/8 ET</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>1/8 MPH</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>1000'</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>1/4 ET</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>1/4 MPH</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Wind Speed</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Wind Direction</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Air Temp (&deg;F)</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Humidity (%)</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Barometric Pressure (inHg)</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Density Altitude</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Vapor Pressure</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Note 1</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Note 2</BorderedHeadTableCell>
+                    <BorderedHeadTableCell>Note 3</BorderedHeadTableCell>
                   </TableRow>
-                )
-              })}
-            </TableBody>
-          </StyledTable>
-        </StyledTableContainer>)
+                </TableHead>
+                <TableBody>
+                  {this.state.timeslips.map((timeslip, i) => {
+                    return (
+                      <TableRow key={timeslip.id}>
+                        <BorderedTableCell><center><PrimaryCheckbox checked={this.state.checked[timeslip.id]} onChange={() => {this.handleCheck(timeslip.id)}}/></center></BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.date}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.time}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.track}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.lane}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.dial}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.win}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.rt}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data._60}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data._330}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.eightET}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.eightMPH}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data._1000}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.quarterET}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.quarterMPH}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.windSpeed}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.windDirection}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.airTemp}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.humidity}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.bPressure}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.da}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.vp}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.note1}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.note2}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.note3}</BorderedTableCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+              </StyledTable>
+            </StyledTableContainer>
+          </TimeSlipPaper>)
           ||
           <center>
             <Spinner animation="grow" variant="primary" />
