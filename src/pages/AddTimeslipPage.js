@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
-import { Login } from '.';  
+import { Login } from '../components';  
 
 class AddTimeslip extends React.PureComponent {
   constructor(props) {

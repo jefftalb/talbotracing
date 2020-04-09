@@ -23,12 +23,22 @@ class Firebase {
   }
 
   signInWithEmailAndPassword = (email, password) => {
-    var newError = this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+    var error = this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
       // Handle Errors here.
       return error
     });
-    if (newError) {
-      return newError;
+    if (error) {
+      return error;
+    }
+  }
+
+  sendPasswordReset = (email) => {
+    var error = this.auth.sendPasswordResetEmail(email).catch(function(error) {
+      // An error happened.
+      return error;
+    });
+    if (error) {
+      return error;
     }
   }
 
@@ -59,7 +69,7 @@ class Firebase {
 
   getTimeslips = async() => {
     let checked = [];
-    var timeslips = await this.db.collection("timeslips").where("uid", "==", this.auth.currentUser.uid)
+    var timeslips = await this.db.collection("timeslips").orderBy("date", "desc").orderBy("time", "desc").where("uid", "==", this.auth.currentUser.uid)
     .get()
     .then((results) => {
       return (

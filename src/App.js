@@ -4,7 +4,8 @@ import './App.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Logo from './logo.png';
-import { HomePage, WeatherPage, AddTimeslip, ViewTimeslips, Error404, withFirebase, Login, SignUp } from './components';
+import { withFirebase } from './components';
+import { HomePage, WeatherPage, AddTimeslipPage, ViewTimeslipsPage, LoginPage, SignUpPage, Error404Page } from './pages';
 
 class App extends Component {
   constructor(props) {
@@ -64,12 +65,12 @@ class App extends Component {
           <content>
             <Switch>
               <Route path="/" exact component={HomePage}/>
-              <Route path="/add-timeslip" exact render={ (props) => <AddTimeslip {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
-              <Route path="/view-timeslips" exact render={ (props) => <ViewTimeslips {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
-              <Route path="/login" exact render={ (props) => <Login {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
-              <Route path="/signup" exact render={ (props) => <SignUp {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+              <Route path="/add-timeslip" exact render={ (props) => <AddTimeslipPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+              <Route path="/view-timeslips" exact render={ (props) => <ViewTimeslipsPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+              <Route path="/login" exact render={ (props) => <LoginPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+              <Route path="/signup" exact render={ (props) => <SignUpPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
               <Route path="/weather" exact component={WeatherPage} />
-              <Route path="/*" component={Error404} />
+              <Route path="/*" component={Error404Page} />
             </Switch>
           </content>
         </div>
