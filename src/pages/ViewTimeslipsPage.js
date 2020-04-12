@@ -5,6 +5,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Spinner from 'react-bootstrap/Spinner';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import Button from 'react-bootstrap/Button';
+import { CSVLink } from "react-csv";
 import { Login, PrimaryCheckbox, InvertPrimaryCheckbox, BorderedTableCell, BorderedHeadTableCell, StyledTable, StyledTableContainer, TimeSlipPaper, WhiteTableSortLabel } from '../components';
 
 const columnLookup = {
@@ -162,7 +164,6 @@ class ViewTimeslips extends React.PureComponent {
     if (!this.props.authUser) {
       return <Login firebase={this.props.firebase} authUser={this.props.authUser} />;
     }
-
     return (
       <>
         <h1>View Timeslips</h1>
@@ -245,6 +246,13 @@ class ViewTimeslips extends React.PureComponent {
             <Spinner animation="grow" variant="primary" />
           </center>
         }
+        <CSVLink
+          filename={"talbot-racing-download.csv"}
+          data={this.state.timeslips.map((timeslip) => {return timeslip.data})}
+          headers={Object.keys(columnLookup)}
+        >
+          <Button>Download Timeslips</Button>
+        </CSVLink>
       </>
     );
   }

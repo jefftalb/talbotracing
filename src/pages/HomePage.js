@@ -6,7 +6,7 @@ class HomePage extends React.PureComponent {
 
     return (
       <>
-        <p>this page is under consrtuction</p>
+        <p>this page is under construction</p>
       </>
     );
   }
