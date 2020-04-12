@@ -45,7 +45,7 @@ class ViewTimeslips extends React.PureComponent {
       update: false,
       initialLoad: false,
       sortLabel: 'date',
-      sortDesc: true,
+      sortDesc: false,
     }
   }
 
