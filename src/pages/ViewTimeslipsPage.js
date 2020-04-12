@@ -5,7 +5,34 @@ import TableRow from '@material-ui/core/TableRow';
 import Spinner from 'react-bootstrap/Spinner';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import { Login, PrimaryCheckbox, InvertPrimaryCheckbox, BorderedTableCell, BorderedHeadTableCell, StyledTable, StyledTableContainer, TimeSlipPaper } from '../components';
+import { Login, PrimaryCheckbox, InvertPrimaryCheckbox, BorderedTableCell, BorderedHeadTableCell, StyledTable, StyledTableContainer, TimeSlipPaper, WhiteTableSortLabel } from '../components';
+
+const columnLookup = {
+  date: 'Date',
+  time: 'Time',
+  track: 'Track',
+  lane: 'Lane',
+  dial: 'Dial In',
+  win: 'W/L',
+  rt: 'R/T',
+  _60: '60\'',
+  _330: '330\'',
+  eightET: '1/8 ET',
+  eightMPH: '1/8 MPH',
+  _1000: '1000\'',
+  quarterET: '1/4 ET',
+  quarterMPH: '1/4 MPH',
+  windSpeed: 'Wind Speed',
+  windDirection: 'Wind Direction',
+  airTemp: 'Air Temp (°F)',
+  humidity: 'Humidity (%)',
+  bPressure: 'Barometric Pressure (inHg)',
+  da: 'Density Altitude',
+  vp: 'Vapor Pressure',
+  note1: 'Note 1',
+  note2: 'Note 2',
+  note3: 'Note 3',
+}
 
 class ViewTimeslips extends React.PureComponent {
   constructor(props) {
@@ -17,6 +44,8 @@ class ViewTimeslips extends React.PureComponent {
       loading: true,
       update: false,
       initialLoad: false,
+      sortLabel: 'Date',
+      sortDesc: true,
     }
   }
 
@@ -33,6 +62,55 @@ class ViewTimeslips extends React.PureComponent {
       this.setState({initialLoad: true});
     }
     this.setState({update: false});
+  }
+
+  compare = (a, b, label, sortDesc) => {
+    var desc = sortDesc ? 1 : -1;
+    if (a.data[label] < b.data[label]) {
+      return -desc;
+    }
+    if (a.data[label] > b.data[label]) {
+      return desc;
+    }
+    return 0;
+  }
+
+  sortBy = (sortLabel) => {
+    var timeslips = this.state.timeslips;
+    if (sortLabel === this.state.sortLabel) {
+      if (sortLabel === 'date') {
+        timeslips.sort((a,b) => this.compare(a, b, 'time', !this.state.sortDesc));
+        timeslips.sort((a,b) => this.compare(a, b, sortLabel, !this.state.sortDesc));
+      }
+      else {
+        timeslips.sort((a,b) => this.compare(a, b, sortLabel, !this.state.sortDesc));
+      }
+      this.setState({timeslips, sortDesc: !this.state.sortDesc});
+    }
+    else {
+      if (sortLabel === 'date') {
+        timeslips.sort((a,b) => this.compare(a, b, 'time', true));
+        timeslips.sort((a,b) => this.compare(a, b, sortLabel, true));
+      }
+      else {
+        timeslips.sort((a,b) => this.compare(a, b, sortLabel, true));
+      }
+      this.setState({timeslips, sortLabel, sortDesc: true});
+    }
+  }
+
+  buildTableHeader = (name) => {
+    return (
+      <BorderedHeadTableCell>
+        <WhiteTableSortLabel
+          active={this.state.sortLabel === name}
+          direction={this.state.sortDesc ? 'desc' : 'asc'}
+          onClick={() => this.sortBy(name)}
+        >
+          {columnLookup[name]}
+        </WhiteTableSortLabel>
+      </BorderedHeadTableCell>
+    );
   }
 
   getData = async() => {
@@ -100,30 +178,30 @@ class ViewTimeslips extends React.PureComponent {
                 <TableHead>
                   <TableRow>
                     <BorderedHeadTableCell><center><InvertPrimaryCheckbox checked={this.state.checkAll} onChange={this.handleCheckAll}/></center></BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Date</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Time</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Track</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Lane</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Dial In</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>W/L</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>R/T</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>60'</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>330'</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>1/8 ET</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>1/8 MPH</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>1000'</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>1/4 ET</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>1/4 MPH</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Wind Speed</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Wind Direction</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Air Temp (&deg;F)</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Humidity (%)</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Barometric Pressure (inHg)</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Density Altitude</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Vapor Pressure</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Note 1</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Note 2</BorderedHeadTableCell>
-                    <BorderedHeadTableCell>Note 3</BorderedHeadTableCell>
+                      {this.buildTableHeader('date')}
+                      {this.buildTableHeader('time')}
+                      {this.buildTableHeader('track')}
+                      {this.buildTableHeader('lane')}
+                      {this.buildTableHeader('dial')}
+                      {this.buildTableHeader('win')}
+                      {this.buildTableHeader('rt')}
+                      {this.buildTableHeader('_60')}
+                      {this.buildTableHeader('_330')}
+                      {this.buildTableHeader('eightET')}
+                      {this.buildTableHeader('eightMPH')}
+                      {this.buildTableHeader('_1000')}
+                      {this.buildTableHeader('quarterET')}
+                      {this.buildTableHeader('quarterMPH')}
+                      {this.buildTableHeader('windSpeed')}
+                      {this.buildTableHeader('windDirection')}
+                      {this.buildTableHeader('airTemp')}
+                      {this.buildTableHeader('humidity')}
+                      {this.buildTableHeader('bPressure')}
+                      {this.buildTableHeader('da')}
+                      {this.buildTableHeader('vp')}
+                      {this.buildTableHeader('note1')}
+                      {this.buildTableHeader('note2')}
+                      {this.buildTableHeader('note3')}
                   </TableRow>
                 </TableHead>
                 <TableBody>

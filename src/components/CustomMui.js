@@ -2,10 +2,11 @@ import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
-import Table from '@material-ui/core/TableCell';
+import Table from '@material-ui/core/Table';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const PrimaryCheckbox = withStyles({
   root: {
@@ -24,7 +25,6 @@ const InvertPrimaryCheckbox = withStyles({
       color: '#FFFFFF',
     },
   },
-  checked: {},
 })((props) => <Checkbox {...props} color="primary"/>);
 
 const BorderedTableCell = withStyles({
@@ -42,9 +42,7 @@ const BorderedHeadTableCell = withStyles({
     color: "white",
     border: '1px solid #7b7b7b',
     padding: '0 10px 0 10px',
-    position: 'sticky',
-    top: 0,
-    zIndex: '100',
+    textAlign: 'center',
   },
 })((props) => <TableCell {...props} />);
 
@@ -59,7 +57,7 @@ const StyledTable = withStyles({
 
 const StyledTableContainer = withStyles({
   root: {
-    height: "70vh",
+    height: "max-content",
     width: "max-content",
     border: '1px solid rgba(224, 224, 224, 1)',
     '&:nth-child': {
@@ -70,8 +68,18 @@ const StyledTableContainer = withStyles({
 
 const TimeSlipPaper = withStyles({
   root: {
-    overflowX: 'scroll',
+    height: '75vh',
+    overflow: 'scroll',
   },
 })((props) => <Paper {...props} />);
 
-export { PrimaryCheckbox, InvertPrimaryCheckbox, BorderedTableCell, BorderedHeadTableCell, StyledTable, StyledTableContainer, TimeSlipPaper };
+const WhiteTableSortLabel = withStyles({
+  root: {
+    color: 'white !important',
+  },
+  icon: {
+    color: 'white !important',
+  }
+})((props) => <TableSortLabel {...props} />);
+
+export { PrimaryCheckbox, InvertPrimaryCheckbox, BorderedTableCell, BorderedHeadTableCell, StyledTable, StyledTableContainer, TimeSlipPaper, WhiteTableSortLabel };
