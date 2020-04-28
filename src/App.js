@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Logo from './logo.png';
 import { withFirebase } from './components';
-import { HomePage, WeatherPage, AddTimeslipPage, ViewTimeslipsPage, LoginPage, SignUpPage, Error404Page } from './pages';
+import { WeatherPage, AddTimeslipPage, ViewTimeslipsPage, LoginPage, SignUpPage, Error404Page } from './pages';
 
 class App extends Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class App extends Component {
           </header>
           <content>
             <Switch>
-              <Route path="/" exact component={HomePage}/>
+              <Route path="/" exact render={ (props) => <ViewTimeslipsPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
               <Route path="/add-timeslip" exact render={ (props) => <AddTimeslipPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
               <Route path="/view-timeslips" exact render={ (props) => <ViewTimeslipsPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
               <Route path="/login" exact render={ (props) => <LoginPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />

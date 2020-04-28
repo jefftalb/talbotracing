@@ -39,6 +39,7 @@ class AddTimeslip extends React.PureComponent {
       showErrorBanner: false,
       showSubmittedBanner: false,
       loading: false,
+      validated: false,
     }
   }
 
@@ -69,27 +70,40 @@ class AddTimeslip extends React.PureComponent {
         errorSubmitting: false,
         showSubmittedBanner: true,
         loading: false,
-      })
+      });
+      setTimeout(() => {
+        this.setState({showSubmittedBanner: false,});
+      }, 2000);
     }
     else if (this.state.errorSubmitting) {
       this.setState({
         showErrorBanner: true,
         loading: false,
-      })
+      });
+      setTimeout(() => {
+        this.setState({showErrorBanner: false});
+      }, 3000);
     }
   }
 
   submitTimeSlip = (e) => {
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.setState({validated: true});
+      return;
+    }
     this.setState({loading: true});
     e.preventDefault();
     this.props.firebase.addTimeslip(this.state)
     .then(docRef => {
-      this.setState({submitted: true})
+      this.setState({submitted: true});
     })
     .catch(error => {
       this.setState({errorSubmitting: true});
       this.props.firebase.addError(error);
-    })
+    });
   }
   handleDate = e => {
     this.setState({
@@ -240,7 +254,15 @@ class AddTimeslip extends React.PureComponent {
       <>
         <h1>Add a Timeslip</h1>
         {this.state.showSubmittedBanner &&
-          <Alert variant="success" onClose={() => this.setState({showSubmittedBanner: false})} delay={3000} dismissible>
+          <Alert 
+            style={{
+              position: "fixed",
+              zIndex: "101",
+              left: "2%",
+              right: "2%",
+              top: "70px",
+            }} variant="success"
+          >
             Timeslip successfully submitted.
           </Alert>
         }
@@ -249,15 +271,19 @@ class AddTimeslip extends React.PureComponent {
             Something went wrong. Please try again later.
           </Alert>
         }
-        <Form onSubmit={this.submitTimeSlip}>
+        <Form noValidate validated={this.state.validated} onSubmit={this.submitTimeSlip}>
           <Form.Row>
-            <Form.Group as={Col}>
+            <Form.Group as={Col} controlId="validationCustomUsername">
               <Form.Label>Date</Form.Label>
               <Form.Control
                 type="date"
                 value={this.state.date}
                 onChange={this.handleDate}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                Please enter a valid date.
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col}>
               <Form.Label>Time</Form.Label>
@@ -265,7 +291,11 @@ class AddTimeslip extends React.PureComponent {
                 type="time"
                 value={this.state.time}
                 onChange={this.handleTime}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                Please enter a valid time.
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col}>
               <Form.Label>Track</Form.Label>
