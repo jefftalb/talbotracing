@@ -1,6 +1,8 @@
-build
+build/
 functions/node_modules
 node_modules
 firebaseCLI.exe
 src/credentials.js
 firebase-debug.log
+build/service-worker.js
+build/asset-manifest.json
