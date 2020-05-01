@@ -64,6 +64,7 @@ class Firebase {
 
   addTimeslip = (data) => {
     data.uid = this.auth.currentUser.uid;
+    if (data.win === "T/T") data.dial = "N/A";
     return this.db.collection("timeslips").add(data);
   }
 

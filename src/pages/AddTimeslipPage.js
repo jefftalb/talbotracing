@@ -313,15 +313,6 @@ class AddTimeslip extends React.PureComponent {
               </Form.Control>
             </Form.Group>
             <Form.Group as={Col}>
-              <Form.Label>Dial</Form.Label>
-              <Form.Control
-                type="number"
-                value={this.state.dial}
-                onChange={this.handleDial}
-                step={0.01}
-              />
-            </Form.Group>
-            <Form.Group as={Col}>
               <Form.Label>Win/Loss</Form.Label>
               <Form.Control as="select" value={this.state.win} onChange={this.handleWin}>
                 <option>T/T</option>
@@ -329,6 +320,18 @@ class AddTimeslip extends React.PureComponent {
                 <option>Loss</option>
               </Form.Control>
             </Form.Group>
+            <Form.Group as={Col}>
+              {this.state.win !== "T/T" &&
+                <>
+                  <Form.Label >Dial</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={this.state.dial}
+                    onChange={this.handleDial}
+                    step={0.01}
+                  />
+                </>}
+              </Form.Group>
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col}>
