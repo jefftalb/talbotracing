@@ -13,9 +13,12 @@ class AddTimeslip extends React.PureComponent {
       date: "",
       time: "",
       track: "GBM",
+      car: "",
+      class: "",
       lane: "Right",
       dial: "0.00",
       win: "T/T",
+      delayBox: "0.000",
       rt: "0.000",
       _60: "0.000",
       _330: "0.000",
@@ -118,6 +121,21 @@ class AddTimeslip extends React.PureComponent {
   handleTrack = e => {
     this.setState({
       track: e.target.value
+    });
+  }
+  handleClass = e => {
+    this.setState({
+      class: e.target.value
+    });
+  }
+  handleCar = e => {
+    this.setState({
+      car: e.target.value
+    });
+  }
+  handleDelayBox = e => {
+    this.setState({
+      delayBox: e.target.value
     });
   }
   handleLane = e => {
@@ -306,6 +324,24 @@ class AddTimeslip extends React.PureComponent {
               />
             </Form.Group>
             <Form.Group as={Col}>
+              <Form.Label>Class</Form.Label>
+              <Form.Control
+                type="text"
+                value={this.state.class}
+                onChange={this.handleClass}
+              />
+            </Form.Group>
+            <Form.Group as={Col}>
+              <Form.Label>Car</Form.Label>
+              <Form.Control
+                type="text"
+                value={this.state.car}
+                onChange={this.handleCar}
+              />
+            </Form.Group>
+          </Form.Row>
+          <Form.Row>
+            <Form.Group as={Col}>
               <Form.Label>Lane</Form.Label>
               <Form.Control as="select" value={this.state.lane} onChange={this.handleLane}>
                 <option>Right</option>
@@ -320,18 +356,25 @@ class AddTimeslip extends React.PureComponent {
                 <option>Loss</option>
               </Form.Control>
             </Form.Group>
+            {this.state.win !== "T/T" &&
             <Form.Group as={Col}>
-              {this.state.win !== "T/T" &&
-                <>
-                  <Form.Label >Dial</Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={this.state.dial}
-                    onChange={this.handleDial}
-                    step={0.01}
-                  />
-                </>}
-              </Form.Group>
+              <Form.Label >Dial</Form.Label>
+              <Form.Control
+                type="number"
+                value={this.state.dial}
+                onChange={this.handleDial}
+                step={0.01}
+              />
+            </Form.Group>}
+            <Form.Group as={Col}>
+              <Form.Label>Delay Box</Form.Label>
+              <Form.Control
+                type="number"
+                value={this.state.delayBox}
+                onChange={this.handleDelayBox}
+                step={0.001}
+              />
+            </Form.Group>
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col}>

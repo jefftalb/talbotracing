@@ -6,3 +6,5 @@ src/credentials.js
 firebase-debug.log
 build/service-worker.js
 build/asset-manifest.json
+build/asset-manifest.json
+build/index.html

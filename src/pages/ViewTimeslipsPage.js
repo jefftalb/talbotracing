@@ -14,8 +14,11 @@ const columnLookup = {
   time: 'Time',
   track: 'Track',
   lane: 'Lane',
+  class: 'Class',
+  car: 'Car',
   dial: 'Dial In',
   win: 'W/L',
+  delayBox: 'Delay Box',
   rt: 'R/T',
   _60: '60\'',
   _330: '330\'',
@@ -182,9 +185,12 @@ class ViewTimeslips extends React.PureComponent {
                       {this.buildTableHeader('date')}
                       {this.buildTableHeader('time')}
                       {this.buildTableHeader('track')}
+                      {this.buildTableHeader('class')}
+                      {this.buildTableHeader('car')}
                       {this.buildTableHeader('lane')}
                       {this.buildTableHeader('dial')}
                       {this.buildTableHeader('win')}
+                      {this.buildTableHeader('delayBox')}
                       {this.buildTableHeader('rt')}
                       {this.buildTableHeader('_60')}
                       {this.buildTableHeader('_330')}
@@ -213,9 +219,12 @@ class ViewTimeslips extends React.PureComponent {
                         <BorderedTableCell>{timeslip.data.date}</BorderedTableCell>
                         <BorderedTableCell>{timeslip.data.time}</BorderedTableCell>
                         <BorderedTableCell>{timeslip.data.track}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.class}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.car}</BorderedTableCell>
                         <BorderedTableCell>{timeslip.data.lane}</BorderedTableCell>
                         <BorderedTableCell>{timeslip.data.dial}</BorderedTableCell>
                         <BorderedTableCell>{timeslip.data.win}</BorderedTableCell>
+                        <BorderedTableCell>{timeslip.data.delayBox}</BorderedTableCell>
                         <BorderedTableCell>{timeslip.data.rt}</BorderedTableCell>
                         <BorderedTableCell>{timeslip.data._60}</BorderedTableCell>
                         <BorderedTableCell>{timeslip.data._330}</BorderedTableCell>
