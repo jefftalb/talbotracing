@@ -68,6 +68,12 @@ class Firebase {
     return this.db.collection("timeslips").add(data);
   }
 
+  updateTimeslip = (data, id) => {
+    data.uid = this.auth.currentUser.uid;
+    if (data.win === "T/T") data.dial = "N/A";
+    return this.db.collection("timeslips").doc(id).update(data);
+  }
+
   getTimeslips = async() => {
     let checked = [];
     var timeslips = await this.db.collection("timeslips").orderBy("date", "desc").orderBy("time", "desc").where("uid", "==", this.auth.currentUser.uid)

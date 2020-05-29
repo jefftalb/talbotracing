@@ -2,12 +2,13 @@ import React from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Button from 'react-bootstrap/Button';
 import { CSVLink } from "react-csv";
-import { Login, PrimaryCheckbox, InvertPrimaryCheckbox, BorderedTableCell, BorderedHeadTableCell, StyledTable, StyledTableContainer, TimeSlipPaper, WhiteTableSortLabel } from '../components';
+import { EditTimeslipPage } from '../pages';
+import { Login, PrimaryCheckbox, InvertPrimaryCheckbox, BorderedTableCell, BorderedHeadTableCell, StyledTable, StyledTableContainer, TimeSlipPaper, WhiteTableSortLabel,  } from '../components';
 
 const columnLookup = {
   date: 'Date',
@@ -37,6 +38,7 @@ const columnLookup = {
   note1: 'Note 1',
   note2: 'Note 2',
   note3: 'Note 3',
+  editData: {},
 }
 
 class ViewTimeslips extends React.PureComponent {
@@ -163,9 +165,21 @@ class ViewTimeslips extends React.PureComponent {
     });
   }
 
+  handleEdit = (data) => {
+    this.setState({editData: data});
+  }
+
+  editSubmit = () => {
+    this.setState({editData: null});
+    this.getData();
+  }
+
   render() {
     if (!this.props.authUser) {
       return <Login firebase={this.props.firebase} authUser={this.props.authUser} />;
+    }
+    else if (this.state.editData) {
+      return <EditTimeslipPage firebase={this.props.firebase} data={this.state.editData.data} id={this.state.editData.id} onSubmit={this.editSubmit} />;
     }
     return (
       <>
@@ -182,6 +196,7 @@ class ViewTimeslips extends React.PureComponent {
                 <TableHead>
                   <TableRow>
                     <BorderedHeadTableCell><center><InvertPrimaryCheckbox checked={this.state.checkAll} onChange={this.handleCheckAll}/></center></BorderedHeadTableCell>
+                    <BorderedHeadTableCell><center>Edit</center></BorderedHeadTableCell>
                       {this.buildTableHeader('date')}
                       {this.buildTableHeader('time')}
                       {this.buildTableHeader('track')}
@@ -215,7 +230,8 @@ class ViewTimeslips extends React.PureComponent {
                   {this.state.timeslips.map((timeslip, i) => {
                     return (
                       <TableRow key={timeslip.id}>
-                        <BorderedTableCell><center><PrimaryCheckbox checked={this.state.checked[timeslip.id]} onChange={() => {this.handleCheck(timeslip.id)}}/></center></BorderedTableCell>
+                      <BorderedTableCell><center><PrimaryCheckbox checked={this.state.checked[timeslip.id]} onChange={() => {this.handleCheck(timeslip.id)}}/></center></BorderedTableCell>
+                        <BorderedTableCell><Button size="small" variant="contained" color="primary" style={{textTransform: 'none'}} onClick={()=>{this.handleEdit(timeslip)}}>Edit</Button></BorderedTableCell>
                         <BorderedTableCell>{timeslip.data.date}</BorderedTableCell>
                         <BorderedTableCell>{timeslip.data.time}</BorderedTableCell>
                         <BorderedTableCell>{timeslip.data.track}</BorderedTableCell>
@@ -259,8 +275,9 @@ class ViewTimeslips extends React.PureComponent {
           filename={"talbot-racing-download.csv"}
           data={this.state.timeslips.map((timeslip) => {return timeslip.data})}
           headers={Object.keys(columnLookup)}
+          style={{all: 'unset'}}
         >
-          <Button>Download Timeslips</Button>
+          <Button variant="contained" color="primary" style={{textTransform: 'none'}}>Download Timeslips</Button>
         </CSVLink>
       </>
     );

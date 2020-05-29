@@ -31,7 +31,7 @@ const BorderedTableCell = withStyles({
   root: {
     border: '1px solid rgba(224, 224, 224, 1)',
     padding: '0 10px 0 10px',
-    textAlign: 'right'
+    textAlign: 'center'
   },
 })((props) => <TableCell {...props} />);
 
