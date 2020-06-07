@@ -19,10 +19,6 @@ class Login extends React.PureComponent {
     };
   }
 
-  componentWillUnmount() {
-
-  }
-
   handleEmail = (e) => {
     this.setState({email: e.target.value});
   }
@@ -63,7 +59,6 @@ class Login extends React.PureComponent {
   // }
 
   render() {
-
     return (
       <Row className="justify-content-md-center">
         <Col xl="3">
@@ -94,8 +89,11 @@ class Login extends React.PureComponent {
               <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Password" onChange={this.handlePassword} />
+                <Form.Text className="text-muted">
+                  <Link to={"/forgot-password"}>Forgot password?</Link>
+                </Form.Text>
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" block>
                 Submit
               </Button>
               <Form.Group>

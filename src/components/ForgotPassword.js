@@ -4,38 +4,35 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { Link } from 'react-router-dom';
 // import GoogleSignInNormal from '../images/signin_normal.png';
 // import GoogleSignInFocus from '../images/signin_focus.png';
 // import GoogleSignInPressed from '../images/signin_pressed.png';
 
-class ResetPassword extends React.PureComponent {
+class ForgotPassword extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      password: "",
       error: null,
+      success: false,
     };
-  }
-
-  componentWillUnmount() {
-
   }
 
   handleEmail = (e) => {
     this.setState({email: e.target.value});
   }
 
-  handlePassword = (e) => {
-    this.setState({password: e.target.value});
-  }
-
-  onLogin = async(e) => {
+  onSubmit = async(e) => {
     e.preventDefault();
-    var error = await this.props.firebase.signInWithEmailAndPassword(this.state.email, this.state.password);
+    console.log("test")
+    var error = await this.props.firebase.sendPasswordResetEmail(this.state.email, this.state.password);
     if (error) {
       this.setState({error})
+    }
+    else {
+      this.setState({
+        error: null,
+        success: true})
     }
   }
 
@@ -67,7 +64,7 @@ class ResetPassword extends React.PureComponent {
     return (
       <Row className="justify-content-md-center">
         <Col xl="3">
-          <h1>Login</h1>
+          <h1>Forgot Password</h1>
           {/* <img
             src={this.state.googlePressed ? GoogleSignInPressed : this.state.googleHover ? GoogleSignInFocus : GoogleSignInNormal}
             alt="google sign in button"
@@ -82,8 +79,8 @@ class ResetPassword extends React.PureComponent {
               {this.state.error.message}
             </Alert>
           }
-          {(!this.props.authUser &&
-            <Form onSubmit={this.onLogin}>
+          {(!this.state.success &&
+            <Form onSubmit={this.onSubmit}>
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control type="email" placeholder="Enter email" onChange={this.handleEmail} />
@@ -91,19 +88,12 @@ class ResetPassword extends React.PureComponent {
                   We'll never share your email with anyone else.
                 </Form.Text>
               </Form.Group>
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" onChange={this.handlePassword} />
-              </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" block>
                 Submit
               </Button>
-              <Form.Group>
-                <Form.Label>If you do not have an account you can sign up for free <Link to={"/signup"}>here</Link></Form.Label>
-              </Form.Group>
             </Form>) ||
             <Alert variant="success">
-              You are signed in
+              Reset password email has been sent successfully
             </Alert>
           }
           </Col>
@@ -112,4 +102,4 @@ class ResetPassword extends React.PureComponent {
   }
 }
 
-export default ResetPassword;
+export default ForgotPassword;

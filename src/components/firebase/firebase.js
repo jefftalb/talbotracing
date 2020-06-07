@@ -58,7 +58,12 @@ class Firebase {
     });
   }
 
-
+  sendPasswordResetEmail = email => {
+    return this.auth.sendPasswordResetEmail(email).then(()=>{})
+    .catch((error) => {
+      return error;
+    })
+  }
 
   // *** Firestore API ***
 

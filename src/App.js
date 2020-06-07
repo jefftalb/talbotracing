@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Logo from './logo.png';
 import { withFirebase } from './components';
-import { WeatherPage, AddTimeslipPage, ViewTimeslipsPage, LoginPage, SignUpPage, Error404Page } from './pages';
+import { WeatherPage, AddTimeslipPage, ViewTimeslipsPage, LoginPage, SignUpPage, Error404Page,ForgotPasswordPage } from './pages';
 
 const theme = createMuiTheme({
   palette: {
@@ -78,6 +78,7 @@ class App extends Component {
                 <Route path="/add-timeslip" exact render={ (props) => <AddTimeslipPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
                 <Route path="/view-timeslips" exact render={ (props) => <ViewTimeslipsPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
                 <Route path="/login" exact render={ (props) => <LoginPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+                <Route path="/forgot-password" exact render={ (props) => <ForgotPasswordPage {...props} firebase={this.props.firebase} /> } />
                 <Route path="/signup" exact render={ (props) => <SignUpPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
                 <Route path="/weather" exact component={WeatherPage} />
                 <Route path="/*" component={Error404Page} />
