@@ -22,11 +22,14 @@ class Firebase {
     });
   }
 
-  signInWithEmailAndPassword = (email, password) => {
-    var error = this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
-      return error
-    });
+  signInWithEmailAndPassword = (email, password, stayLoggedIn) => {
+    var error = this.auth.setPersistence((stayLoggedIn ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION))
+      .then(() => {
+        return this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+          // Handle Errors here.
+          return error
+        });
+      });
     if (error) {
       return error;
     }

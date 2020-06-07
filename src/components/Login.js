@@ -15,6 +15,7 @@ class Login extends React.PureComponent {
     this.state = {
       email: "",
       password: "",
+      stayLoggedIn: false,
       error: null,
     };
   }
@@ -29,10 +30,14 @@ class Login extends React.PureComponent {
 
   onLogin = async(e) => {
     e.preventDefault();
-    var error = await this.props.firebase.signInWithEmailAndPassword(this.state.email, this.state.password);
+    var error = await this.props.firebase.signInWithEmailAndPassword(this.state.email, this.state.password, this.state.stayLoggedIn);
     if (error) {
       this.setState({error})
     }
+  }
+
+  handleStayLoggedIn = () => {
+    this.setState({stayLoggedIn: !this.state.stayLoggedIn});
   }
 
   // googleSignIn = () => {
@@ -92,6 +97,9 @@ class Login extends React.PureComponent {
                 <Form.Text className="text-muted">
                   <Link to={"/forgot-password"}>Forgot password?</Link>
                 </Form.Text>
+              </Form.Group>
+              <Form.Group controlId="formBasicStayLoggedIn" onChange={this.handleStayLoggedIn} >
+                <Form.Check type="checkbox" label="Stay logged in" />
               </Form.Group>
               <Button variant="primary" type="submit" block>
                 Submit
