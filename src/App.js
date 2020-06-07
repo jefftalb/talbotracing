@@ -28,6 +28,9 @@ class App extends Component {
     this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
       if (authUser) {
         this.setState({ authUser });
+        if (!authUser.emailVerified) {
+          authUser.sendEmailVerification(); 
+        }
       }
       else {
         this.setState({ authUser: null });
@@ -73,16 +76,20 @@ class App extends Component {
               </Navbar>
             </header>
             <content>
-              <Switch>
-                <Route path="/" exact render={ (props) => <ViewTimeslipsPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
-                <Route path="/add-timeslip" exact render={ (props) => <AddTimeslipPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
-                <Route path="/view-timeslips" exact render={ (props) => <ViewTimeslipsPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
-                <Route path="/login" exact render={ (props) => <LoginPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
-                <Route path="/forgot-password" exact render={ (props) => <ForgotPasswordPage {...props} firebase={this.props.firebase} /> } />
-                <Route path="/signup" exact render={ (props) => <SignUpPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
-                <Route path="/weather" exact component={WeatherPage} />
-                <Route path="/*" component={Error404Page} />
-              </Switch>
+              {(this.state.authUser && !this.state.authUser.emailVerified &&
+                <h1>Please verify your email address to access the site</h1>)
+                ||
+                <Switch>
+                  <Route path="/" exact render={ (props) => <ViewTimeslipsPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+                  <Route path="/add-timeslip" exact render={ (props) => <AddTimeslipPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+                  <Route path="/view-timeslips" exact render={ (props) => <ViewTimeslipsPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+                  <Route path="/login" exact render={ (props) => <LoginPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+                  <Route path="/forgot-password" exact render={ (props) => <ForgotPasswordPage {...props} firebase={this.props.firebase} /> } />
+                  <Route path="/signup" exact render={ (props) => <SignUpPage {...props} firebase={this.props.firebase} authUser={this.state.authUser} /> } />
+                  <Route path="/weather" exact component={WeatherPage} />
+                  <Route path="/*" component={Error404Page} />
+                </Switch>
+              }
             </content>
           </div>
         </Router>
